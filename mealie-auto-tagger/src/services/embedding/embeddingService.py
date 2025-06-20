@@ -4,7 +4,7 @@ from sentence_transformers import SentenceTransformer, util
 
 class EmbeddingService:
 
-    def computingLabelEmbeddings(self, labels: list[Label], modelName : str = "sentence-transformers/all-MiniLM-L12-v2") -> MealieLabelEmbeddings:
+    def computingLabelEmbeddings(self, labels: list[Label], modelName : str = "all-MiniLM-L6-v2") -> MealieLabelEmbeddings:
         labelEmbeddings = []
         
         model = SentenceTransformer(modelName)
