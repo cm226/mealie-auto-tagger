@@ -15,7 +15,7 @@ def makeRouter(labelEmbeddings : MealieLabelEmbeddings):
     @router.post("/post/")
     def notified_from_meaile(update: NotifiedMessage):
 
-        #some werid patch/diff format from apraise/mealie? TODO
+        #some weird patch/diff format from apraise/mealie? TODO
         docData = update.document_data.replace('+', '')
         parsed = json.loads(docData)
         details = ShoppingListUpdate(**parsed)

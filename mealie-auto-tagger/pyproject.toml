@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 [tool.poetry]
-packages = [{include = "mealie_auto_tagger", from = "src"}]
+packages = [{include = "src", from = "./"}]
 
 
 [build-system]

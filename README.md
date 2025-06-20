@@ -1,6 +1,6 @@
-# Mealie auto label
+# Mealie auto tagger
 
-Mealie auto label is a mealie add-on for automatically labeling items added to shopping lists. 
+Mealie auto tagger is a mealie add-on for automatically labeling items added to shopping lists. 
 
 
 ## Configuration
