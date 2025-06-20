@@ -1,10 +1,14 @@
 import json
 from fastapi import APIRouter
 from model.mealie.notifiedMessage import NotifiedMessage, ShoppingListUpdate
-from model.mealie.shoppingListItem import Label
+from model.mealieLableEmbeddings import MealieLabelEmbeddings
 from services.mealieShoppingList import mealieShoppingList
+from services.embedding.embeddingService import EmbeddingService
 
-def makeRouter(labels : list[Label]):
+
+embeddingService = EmbeddingService()
+
+def makeRouter(labelEmbeddings : MealieLabelEmbeddings):
     router = APIRouter(prefix="/webhooks")
 
 
@@ -18,14 +22,14 @@ def makeRouter(labels : list[Label]):
 
         for itemID in details.shoppingListItemIds:
 
-            chosenLabel = labels[0]
             listItem = mealieShoppingList.getListItem(itemID)
             
-            if listItem.labelId == chosenLabel.id:
+            chosenLabel = embeddingService.findClosest(listItem.display, labelEmbeddings)
+            if listItem.labelId == chosenLabel.label.id:
                 continue
 
-            listItem.labelId = chosenLabel.id
-            listItem.label = chosenLabel
+            listItem.labelId = chosenLabel.label.id
+            listItem.label = chosenLabel.label
             mealieShoppingList.updateListItem(listItem)
 
         return 200

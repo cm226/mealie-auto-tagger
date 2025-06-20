@@ -6,6 +6,7 @@ from routes import makeRouter
 from services.makeNotifier import makeNotifier
 from services.mealieLabels import mealieLabels
 from services.logging import getlogger
+from services.embedding.embeddingService import EmbeddingService
 from model.settings import settings
 
 description = """
@@ -23,7 +24,10 @@ async def lifespan_fn(_: FastAPI) -> AsyncGenerator[None, None]:
 
     labels = mealieLabels.createLables(settings.labels)
 
-    app.include_router(makeRouter(labels))
+    embedding = EmbeddingService()
+    labelEmbeddings = embedding.computingLabelEmbeddings(labels)
+
+    app.include_router(makeRouter(labelEmbeddings))
     yield
 
     logger.info("-----SYSTEM SHUTDOWN----- \n")
