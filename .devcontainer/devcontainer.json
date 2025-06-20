@@ -15,7 +15,8 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"ms-python.python"
+				"ms-python.python",
+				"ms-python.vscode-pylance"
 			]
 		}
 	},
@@ -28,6 +29,7 @@
 
 	// Uncomment the next line to run commands after the container is created.
 	// "postCreateCommand": "cat /etc/os-release",
+	"onCreateCommand": "sudo chown -R vscode:vscode mealie-auto-tagger/.env && cd mealie-auto-tagger && poetry install",
 
 	// Configure tool-specific properties.
 	// "customizations": {},

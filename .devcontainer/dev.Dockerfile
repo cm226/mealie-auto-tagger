@@ -1,14 +1,11 @@
-FROM huggingface/transformers-pytorch-gpu
+ARG VARIANT="3.12-bullseye"
+FROM mcr.microsoft.com/devcontainers/python:${VARIANT}
 
-
-RUN pip install sentence_transformers
-WORKDIR /src
-
-# download the models/datasets
-COPY ./setup.py ./setup.py
-RUN python3 setup.py
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN pip install poetry
-
-
-
