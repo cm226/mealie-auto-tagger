@@ -1,10 +1,10 @@
 import sys
 from datasets import load_dataset
-from services.embedding.embeddingService import EmbeddingService
-from model.mealie.shoppingListItem import Label
+from services.embedding.embeddingService import __EmbeddingService
+from model.mealie.shoppingListItem import MealieLabel
 
-def LabelFromStr(name: str) -> Label:
-    return Label(name=name, color="", groupId="", id="")
+def LabelFromStr(name: str) -> MealieLabel:
+    return MealieLabel(name=name, color="", groupId="", id="")
     
 
 ds = load_dataset("Scuccorese/food-ingredients-dataset", split="train")
@@ -12,7 +12,7 @@ testSet = ds.shuffle(seed=42).select(range(100))
 
 
 def main(modelName:str):
-    embeddingService = EmbeddingService()
+    embeddingService = __EmbeddingService()
 
     categories = set()
     for ingredient in testSet:

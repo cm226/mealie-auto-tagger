@@ -1,10 +1,10 @@
-from model.mealie.shoppingListItem import Label
+from model.mealie.shoppingListItem import MealieLabel
 from model.mealieLableEmbeddings import MealieLabelEmbedding, MealieLabelEmbeddings
 from sentence_transformers import SentenceTransformer, util
 
-class EmbeddingService:
+class __EmbeddingService:
 
-    def computingLabelEmbeddings(self, labels: list[Label], modelName : str = "all-MiniLM-L6-v2") -> MealieLabelEmbeddings:
+    def computingLabelEmbeddings(self, labels: list[MealieLabel], modelName : str = "all-MiniLM-L6-v2") -> MealieLabelEmbeddings:
         labelEmbeddings = []
         
         model = SentenceTransformer(modelName)
@@ -27,6 +27,8 @@ class EmbeddingService:
         
         closest = max(distancePool, key=lambda score: score[0])
         return closest[1]
+    
+embeddingService = __EmbeddingService() 
 
 
 

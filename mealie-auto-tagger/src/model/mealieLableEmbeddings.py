@@ -1,4 +1,4 @@
-from model.mealie.shoppingListItem import Label
+from model.mealie.shoppingListItem import MealieLabel
 from pydantic import BaseModel, ConfigDict
 from sentence_transformers import SentenceTransformer
 from torch import Tensor
@@ -7,7 +7,7 @@ from torch import Tensor
 class MealieLabelEmbedding(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    label : Label
+    label : MealieLabel
     embedding : Tensor
 
 class MealieLabelEmbeddings(BaseModel):
@@ -15,3 +15,9 @@ class MealieLabelEmbeddings(BaseModel):
 
     labels : list[MealieLabelEmbedding]
     model : SentenceTransformer
+
+    def getLabelByID(self, id:str):
+        return next(
+            filter(
+                lambda x: x.label.id == id, self.labels
+            ))

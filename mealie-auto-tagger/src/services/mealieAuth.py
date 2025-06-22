@@ -1,7 +1,6 @@
 
 from typing import Any
 import requests
-import os
 import urllib.parse
 
 from model.settings import settings

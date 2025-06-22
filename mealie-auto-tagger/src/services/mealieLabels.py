@@ -1,4 +1,4 @@
-from model.mealie.shoppingListItem import Label
+from model.mealie.shoppingListItem import MealieLabel
 from model.mealie.paginated import PaginatedQueryResp
 from model.settings import settings
 from services import logging
@@ -26,7 +26,7 @@ class __MealieLabels():
             raise RuntimeError("Failed to get labels: " + resp.text)
         
 
-        queryResp = PaginatedQueryResp[Label](**resp.json())
+        queryResp = PaginatedQueryResp[MealieLabel](**resp.json())
         logger.info(queryResp) 
         if queryResp.total != 0:
             return queryResp.items[0]
@@ -53,9 +53,9 @@ class __MealieLabels():
         if not resp.ok:
             raise RuntimeError("Failed to create new label " + resp.text)
 
-        return Label(**resp.json())
+        return MealieLabel(**resp.json())
 
-    def createLables(self, labels: list[str]) -> list[Label]:
+    def createLabels(self, labels: list[str]) -> list[MealieLabel]:
         return [self.makeLabel(name) for name in labels]
             
 

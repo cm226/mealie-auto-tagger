@@ -1,4 +1,4 @@
-from model.mealie.shoppingListItem import ShoppingListItem
+from model.mealie.shoppingListItem import MealieShoppingListItem
 import requests
 
 from model.settings import settings
@@ -14,11 +14,10 @@ class __MealieShoppingList():
         if not resp.ok:
             raise RuntimeError(f"Failed to get list Item {itemID} : {resp.text}")
 
-        print(resp.json())
-        listItem = ShoppingListItem(**resp.json())
+        listItem = MealieShoppingListItem(**resp.json())
         return listItem
     
-    def updateListItem(self, listItem: ShoppingListItem):
+    def updateListItem(self, listItem: MealieShoppingListItem):
         reqURL = urllib.parse.urljoin(settings.mealie_url, f"api/households/shopping/items/{listItem.id}")
         resp = requests.put(
             reqURL,

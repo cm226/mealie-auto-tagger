@@ -10,7 +10,7 @@ from services.logging import getlogger
 logger = getlogger()
 
 
-class makeNotifier():
+class __mealieNotifier():
 
     NAME = "mealie-auto-tagger"
 
@@ -76,3 +76,5 @@ class makeNotifier():
 
         if not updateNotifiactionResp.ok:
             raise RuntimeError("Failed to update notifier: " + updateNotifiactionResp.text)
+        
+mealieNotifier = __mealieNotifier()

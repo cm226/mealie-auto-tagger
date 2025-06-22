@@ -1,13 +1,13 @@
 from typing import Optional
 from pydantic import BaseModel
 
-class Label(BaseModel):
+class MealieLabel(BaseModel):
     name: str
     color: str
     groupId: str
     id: str
 
-class ShoppingListItemFood(BaseModel):
+class MealieShoppingListItemFood(BaseModel):
     id: str
     name: str
     pluralName: str
@@ -16,12 +16,12 @@ class ShoppingListItemFood(BaseModel):
     labelId: str
     aliases: list
     householdsWithIngredientFood: list
-    label: Label
+    label: MealieLabel
     
     createdAt: str
     updatedAt: str
 
-class ShoppingListItemUnit(BaseModel):
+class MealieShoppingListItemUnit(BaseModel):
     id: str
     name: str
     pluralName: str 
@@ -34,10 +34,10 @@ class ShoppingListItemUnit(BaseModel):
     createdAt: str
     updatedAt: str
 
-class ShoppingListItem(BaseModel):
+class MealieShoppingListItem(BaseModel):
   quantity: int
-  unit: Optional[ShoppingListItemUnit]
-  food: Optional[ShoppingListItemFood]
+  unit: Optional[MealieShoppingListItemUnit]
+  food: Optional[MealieShoppingListItemFood]
   note: str
   isFood: bool
   disableAmount: bool
@@ -52,7 +52,7 @@ class ShoppingListItem(BaseModel):
   id: str
   groupId: str
   householdId: str
-  label: Optional[Label]
+  label: Optional[MealieLabel]
   recipeReferences: list
   createdAt: str
   updatedAt: str
