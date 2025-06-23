@@ -1,7 +1,6 @@
-from typing import cast
-from db.repos.RepoBase import RepoBase
-from db.models.label import ListItem, Label
-from model.mealie.shoppingListItem import MealieShoppingListItem
+from mealie_auto_tagger.db.repos.RepoBase import RepoBase
+from mealie_auto_tagger.db.models.label import ListItem, Label
+from mealie_auto_tagger.model.mealie.shoppingListItem import MealieShoppingListItem
 from sqlalchemy import select
 
 class ListItemRepo(RepoBase):
@@ -17,7 +16,7 @@ class ListItemRepo(RepoBase):
     
 
     def storeLabelAssignment(self, item: MealieShoppingListItem):
-        from db.models.label import ListItem
+        from mealie_auto_tagger.db.models.label import ListItem
 
         result = self.getListItemFor(item.display)
         if not result:

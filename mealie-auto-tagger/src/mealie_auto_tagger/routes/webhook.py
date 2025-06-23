@@ -1,14 +1,14 @@
 import json
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from model.mealie.notifiedMessage import NotifiedMessage, ShoppingListUpdate
-from model.mealieLableEmbeddings import MealieLabelEmbedding, MealieLabelEmbeddings
-from services.mealieShoppingList import mealieShoppingList
-from services.embedding.embeddingService import embeddingService
-from model.mealie.shoppingListItem import MealieShoppingListItem
+from mealie_auto_tagger.model.mealie.notifiedMessage import NotifiedMessage, ShoppingListUpdate
+from mealie_auto_tagger.model.mealieLableEmbeddings import MealieLabelEmbedding, MealieLabelEmbeddings
+from mealie_auto_tagger.services.mealieShoppingList import mealieShoppingList
+from mealie_auto_tagger.services.embedding.embeddingService import embeddingService
+from mealie_auto_tagger.model.mealie.shoppingListItem import MealieShoppingListItem
 
-from db.repos.all_repositories import get_repositories
-from db.init import fast_API_depends_generate_session
+from mealie_auto_tagger.db.repos.all_repositories import get_repositories
+from mealie_auto_tagger.db.init import fast_API_depends_generate_session
 
 def getLabelAssignment(session: Session, listItem : MealieShoppingListItem, labelEmbeddings : MealieLabelEmbeddings) -> MealieLabelEmbedding:
     userSelectedListItemLabel = get_repositories(session).listItemRepo.getListItemFor(listItem.display)

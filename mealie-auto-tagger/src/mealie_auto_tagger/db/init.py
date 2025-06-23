@@ -1,7 +1,7 @@
 
 from typing import Generator
-from model.settings import settings
-from db.models.label import Base
+from mealie_auto_tagger.model.settings import settings
+from mealie_auto_tagger.db.models.label import Base
 from sqlalchemy import create_engine
 
 from sqlalchemy.orm import sessionmaker

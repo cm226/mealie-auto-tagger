@@ -1,5 +1,5 @@
-from model.mealie.shoppingListItem import MealieLabel
-from model.mealieLableEmbeddings import MealieLabelEmbedding, MealieLabelEmbeddings
+from mealie_auto_tagger.model.mealie.shoppingListItem import MealieLabel
+from mealie_auto_tagger.model.mealieLableEmbeddings import MealieLabelEmbedding, MealieLabelEmbeddings
 from sentence_transformers import SentenceTransformer, util
 
 class __EmbeddingService:

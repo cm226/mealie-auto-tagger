@@ -1,10 +1,10 @@
-from model.mealie.shoppingListItem import MealieShoppingListItem
+from mealie_auto_tagger.model.mealie.shoppingListItem import MealieShoppingListItem
 import requests
 
-from model.settings import settings
+from mealie_auto_tagger.model.settings import settings
 import urllib.parse
 
-from services.mealieAuth import mealieAuth
+from mealie_auto_tagger.services.mealieAuth import mealieAuth
 
 class __MealieShoppingList():
     def getListItem(self, itemID: str):

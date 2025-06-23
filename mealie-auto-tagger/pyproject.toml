@@ -1,5 +1,5 @@
 [project]
-name = "mealie-auto-tagger"
+name = "mealie_auto_tagger"
 version = "0.1.0"
 description = ""
 authors = [
@@ -20,9 +20,12 @@ dependencies = [
 ]
 
 [tool.poetry]
-packages = [{include = "src", from = "./"}]
+packages = [{include = "mealie_auto_tagger", from = "./src"}]
 
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+mealieAT = "mealie_auto_tagger.main:main"

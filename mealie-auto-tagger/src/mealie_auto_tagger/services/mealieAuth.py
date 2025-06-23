@@ -3,8 +3,8 @@ from typing import Any
 import requests
 import urllib.parse
 
-from model.settings import settings
-from services.logging import getlogger
+from mealie_auto_tagger.model.settings import settings
+from mealie_auto_tagger.services.logging import getlogger
 
 logger = getlogger()
 

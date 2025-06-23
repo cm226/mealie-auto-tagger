@@ -1,11 +1,11 @@
 import requests
-from services.mealieAuth import mealieAuth
+from mealie_auto_tagger.services.mealieAuth import mealieAuth
 import urllib.parse
 
-from model.settings import settings
-from model.mealie.notifier import Notifier
-from model.mealie.paginated import PaginatedQueryResp
-from services.logging import getlogger
+from mealie_auto_tagger.model.settings import settings
+from mealie_auto_tagger.model.mealie.notifier import Notifier
+from mealie_auto_tagger.model.mealie.paginated import PaginatedQueryResp
+from mealie_auto_tagger.services.logging import getlogger
 
 logger = getlogger()
 

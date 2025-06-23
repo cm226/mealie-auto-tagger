@@ -9,10 +9,10 @@
             "type": "debugpy",
             "request": "launch",
             "module": "uvicorn",
-            "cwd": "${workspaceFolder}/mealie-auto-tagger/src",
+            "cwd": "${workspaceFolder}/mealie-auto-tagger/src/",
             "envFile": "${workspaceFolder}/mealie-auto-tagger/.env",
             "args": [
-                "app:app",
+                "mealie_auto_tagger.app:app",
                 "--port", "8081",
                 "--host","0.0.0.0", 
                 "--reload"

@@ -1,4 +1,4 @@
-from model.mealie.shoppingListItem import MealieLabel
+from mealie_auto_tagger.model.mealie.shoppingListItem import MealieLabel
 from pydantic import BaseModel, ConfigDict
 from sentence_transformers import SentenceTransformer
 from torch import Tensor

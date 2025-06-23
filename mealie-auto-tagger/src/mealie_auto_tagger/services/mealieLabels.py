@@ -1,8 +1,8 @@
-from model.mealie.shoppingListItem import MealieLabel
-from model.mealie.paginated import PaginatedQueryResp
-from model.settings import settings
-from services import logging
-from services.mealieAuth import mealieAuth
+from mealie_auto_tagger.model.mealie.shoppingListItem import MealieLabel
+from mealie_auto_tagger.model.mealie.paginated import PaginatedQueryResp
+from mealie_auto_tagger.model.settings import settings
+from mealie_auto_tagger.services import logging
+from mealie_auto_tagger.services.mealieAuth import mealieAuth
 
 import urllib.parse
 import requests
