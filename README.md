@@ -1,29 +1,68 @@
-# Mealie auto tagger
+# 🥘 MealieAT - Automatic Tagging for Mealie Shopping Lists
 
-Mealie auto tagger is a mealie add-on for automatically labeling items added to shopping lists. 
+**MealieAT** is a utility that automatically tags shopping list items from [Mealie](https://github.com/mealie-recipes/mealie) using a word similarity approach and a user-defined set of categories (e.g., `Dairy`, `Vegetables`, `Meat`, etc.).
 
+The project communicates with Mealie via its API, uses word embeddings to determine category similarity, and is deployed in a Docker container for easy setup.
 
-## Configuration
+---
 
-### host
-> URL that mealie can use to reach mealie auto label
+## 🚀 Features
 
-### mealie_url
-> URL that mealie auto tagger can use to reach mealie
+* 🔗 **Mealie API Integration**
+  Fetches shopping list items directly from your Mealie instance. Use Mealie just as you normally would!
 
-### mealie_user
-> Username to use for mealie
+* 🧠 **Word Embedding Similarity**
+  Uses word embeddings to semantically match shopping items to their most likely category.
 
-### mealie_pw
-> Password to use for mealie
+* 💾 **Stores User overrides**
+  Stores the labels that are manually assigned and re-applies the stored label in the future. 
 
-### labels
-> A list of labels to use for categorization
+* 📦 **Auto-Categorization**
+  Automatically applies tags based on your predefined category list.
 
+* 🐳 **Dockerized**
+  Easy to run and deploy in any environment using Docker.
 
-Configuration is applied though environment variables
+---
 
-## Accuracy 
+## 🛠️ Installation
+
+### Prerequisites
+
+* Docker
+* A running instance of Mealie (v2)
+
+### Run with Docker
+
+```bash
+docker run -p 8081:8081 --env-file ./.env cm226/mealie-auto-tagger:0.1.0
+```
+
+---
+
+## ⚙️ Environment Variables
+
+| Variable               | Description                                | Required |
+| ---------------------- | ------------------------------------------ | -------- |
+| `host`                 | Url Mealie can use to reach mealieAT       | ✅        |
+| `mealie_url`           | The URL mealieAT can use to reach mealie   | ✅        |
+| `mealie_user`          | Mealie username to use                     | ✅        |
+| `mealie_pw`            | Mealie password to use                     | ✅        |
+| `labels`               | list of labels to applie                   | ✅        |
+
+checkout example [.env](./mealie-auto-tagger/.env)
+
+---
+
+## 📌 TODO / Roadmap
+
+* Add mealie API token env var instead of user details
+* Look at reducing the image size
+* Train a better model
+
+---
+
+## 🎯 Accuracy
 
 Dataset used for evaluation : https://huggingface.co/datasets/Scuccorese/food-ingredients-dataset
 
@@ -32,3 +71,17 @@ Randomly sampled 100 cases
 Accuracy = correct / total
 
 [Current results](./mealie-auto-tagger/modelResults.md)
+
+---
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to fork the repo and submit a PR.
+
+---
+
+## ❤️ Acknowledgements
+
+* [Mealie](https://github.com/mealie-recipes/mealie)
+
+---
