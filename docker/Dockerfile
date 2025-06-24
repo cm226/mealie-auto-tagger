@@ -16,6 +16,7 @@ COPY ./mealie-auto-tagger /mealie-auto-tagger
 WORKDIR /mealie-auto-tagger
 
 RUN poetry build --output=/dist
+RUN echo /dist/mealie_auto_tagger-$(poetry version --short)-py3-none-any.whl > /dist/requirements.txt
 
 
 ################################################
@@ -24,6 +25,6 @@ RUN poetry build --output=/dist
 FROM python-base AS production
 
 COPY --from=builder /dist /dist/
-RUN pip install /dist/mealie_auto_tagger-0.1.0-py3-none-any.whl
+RUN pip install -r /dist/requirements.txt
 
 ENTRYPOINT ["mealieAT"]

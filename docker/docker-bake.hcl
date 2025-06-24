@@ -9,5 +9,5 @@ group "default" {
 target "meaile-auto-tagger" {
   context    = "../"
   dockerfile = "./docker/Dockerfile"
-  tags       = ["cm226/meaile-auto-tagger:${VERSION}"]
+  tags       = ["cm226/mealie-auto-tagger:${VERSION}"]
 }
