@@ -8,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
 def initDB(db_url: str):
-    engine = create_engine(db_url, echo=True, connect_args={"check_same_thread": False})
+    engine = create_engine(db_url, echo=not settings.production, connect_args={"check_same_thread": False})
     Base.metadata.create_all(engine)
 
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine, future=True)

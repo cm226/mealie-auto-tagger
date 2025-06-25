@@ -29,4 +29,7 @@ COPY --from=builder /dist /dist/
 RUN pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
 RUN pip install --no-cache-dir -r /dist/requirements.txt
 
+ENV production=True
+EXPOSE 8081/tcp
+
 ENTRYPOINT ["mealieAT"]

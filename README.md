@@ -48,7 +48,7 @@ docker run -p 8081:8081 --env-file ./.env cm226/mealie-auto-tagger:0.1.0
 | `mealie_url`           | The URL mealieAT can use to reach mealie   | ✅        |
 | `mealie_user`          | Mealie username to use                     | ✅        |
 | `mealie_pw`            | Mealie password to use                     | ✅        |
-| `labels`               | list of labels to applie                   | ✅        |
+| `labels`               | list of labels to apply                    | ✅        |
 
 checkout example [.env](./mealie-auto-tagger/.env)
 
@@ -59,6 +59,7 @@ checkout example [.env](./mealie-auto-tagger/.env)
 * Add mealie API token env var instead of user details
 * Look at reducing the image size
 * Train a better model
+* Pull existing labels from mealie on startup
 
 ---
 

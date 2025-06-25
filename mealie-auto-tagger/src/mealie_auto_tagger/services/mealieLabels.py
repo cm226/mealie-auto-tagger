@@ -27,7 +27,6 @@ class __MealieLabels():
         
 
         queryResp = PaginatedQueryResp[MealieLabel](**resp.json())
-        logger.info(queryResp) 
         if queryResp.total != 0:
             return queryResp.items[0]
         
