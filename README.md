@@ -23,7 +23,7 @@ The project communicates with Mealie via its API, uses word embeddings to determ
   Stores the labels that are manually assigned and re-applies the stored label in the future. 
 
 * 📦 **Auto-Categorization**
-  Automatically applies tags based on your predefined category list.
+  Automatically applies labels based on your predefined category list.
 
 * 🐳 **Dockerized**
   Easy to run and deploy in any environment using Docker.
@@ -37,6 +37,7 @@ The project communicates with Mealie via its API, uses word embeddings to determ
 * Docker
 * A running instance of Mealie (v2)
 * Mealie instance should have a set of labels configured. _You can manage labels by going to profile -> manage data -> (change orange dropdown to Labels)_
+* A valid mealie API token _You can create one in mealie by going to profile -> API Tokens_
 
 ### Run with Docker
 
@@ -52,16 +53,14 @@ docker run -p 8081:8081 --env-file ./.env cm226/mealie-auto-tagger:0.1.0
 | ---------------------- | ------------------------------------------ | -------- |
 | `host`                 | Url Mealie can use to reach mealieAT       | ✅        |
 | `mealie_url`           | The URL mealieAT can use to reach mealie   | ✅        |
-| `mealie_user`          | Mealie username to use                     | ✅        |
-| `mealie_pw`            | Mealie password to use                     | ✅        |
+| `mealie_api_token`     | API Token to use with mealie               | ✅        |
 
-checkout example [.env](./mealie-auto-tagger/.env)
+checkout example [.env](./mealie-auto-tagger/src/.env)
 
 ---
 
 ## 📌 TODO / Roadmap
 
-* Add mealie API token env var instead of user details
 * Look at reducing the image size
 * Train a better model
 

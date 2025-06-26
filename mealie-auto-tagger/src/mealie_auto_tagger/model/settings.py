@@ -1,20 +1,19 @@
 from typing import List
 
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import Field
 
 class Settings(BaseSettings):
-    host : str = ""
-    mealie_url : str = ""
-    mealie_user: str = ""
-    mealie_pw: str = ""
 
-    db_url: str = "sqlite:///./database.db.sqlite3"
+    model_config = SettingsConfigDict(
+        env_file=('.env', '.env.dev')
+    )
+    # required
+    host : str
+    mealie_url : str
+    mealie_api_token : str
 
-    production: bool = False
-
-    class Config:
-        env_file = ".env"  # This tells Pydantic to load from .env
-        env_file_encoding = 'utf-8'  # Optional: use utf-8 encoding
-
+    db_url: str = Field(default="sqlite:///./database.db.sqlite3")
+    production: bool = Field(default=False)
 # Instantiate the settings
 settings = Settings()

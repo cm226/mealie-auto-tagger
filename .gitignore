@@ -195,3 +195,4 @@ cython_debug/
 
 # Mealie auto tagger 
 database.db.sqlite3
+.env.dev
