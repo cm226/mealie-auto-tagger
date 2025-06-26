@@ -9,37 +9,37 @@ class MealieLabel(BaseModel):
 
 class MealieShoppingListItemFood(BaseModel):
     id: str
-    name: str
-    pluralName: str
-    description: str
-    extras: dict
-    labelId: str
+    name: Optional[str]
+    pluralName: Optional[str]
+    description: Optional[str]
+    extras: Optional[dict]
+    labelId: Optional[str]
     aliases: list
     householdsWithIngredientFood: list
-    label: MealieLabel
+    label: Optional[MealieLabel]
     
     createdAt: str
     updatedAt: str
 
 class MealieShoppingListItemUnit(BaseModel):
     id: str
-    name: str
-    pluralName: str 
-    description: str
-    fraction: bool
-    abbreviation: str
-    pluralAbbreviation: str
-    useAbbreviation: bool
+    name: Optional[str]
+    pluralName: Optional[str] 
+    description: Optional[str]
+    fraction: Optional[bool]
+    abbreviation: Optional[str]
+    pluralAbbreviation: Optional[str]
+    useAbbreviation: Optional[bool]
     aliases: list
     createdAt: str
     updatedAt: str
 
 class MealieShoppingListItem(BaseModel):
-  quantity: int
+  quantity: float
   unit: Optional[MealieShoppingListItemUnit]
   food: Optional[MealieShoppingListItemFood]
-  note: str
-  isFood: bool
+  note: Optional[str]
+  isFood: Optional[bool]
   disableAmount: bool
   display: str
   shoppingListId: str
@@ -48,11 +48,11 @@ class MealieShoppingListItem(BaseModel):
   foodId: Optional[str]
   labelId: Optional[str]
   unitId: Optional[str]
-  extras: dict
+  extras: Optional[dict]
   id: str
   groupId: str
   householdId: str
   label: Optional[MealieLabel]
-  recipeReferences: list
+  recipeReferences: Optional[list]
   createdAt: str
   updatedAt: str
