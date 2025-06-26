@@ -42,7 +42,7 @@ The project communicates with Mealie via its API, uses word embeddings to determ
 ### Run with Docker
 
 ```bash
-docker run -p 8081:8081 --env-file ./.env cm226/mealie-auto-tagger:0.1.0
+docker run -p 8081:8081 --env-file ./.env cm226/mealie-auto-tagger:0.2.0
 ```
 
 ---

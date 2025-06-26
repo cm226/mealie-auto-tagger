@@ -24,9 +24,10 @@ RUN echo /dist/mealie_auto_tagger-$(poetry version --short)-py3-none-any.whl > /
 ################################################
 FROM python-base AS production
 
-COPY --from=builder /dist /dist/
 # pre-install CPU torch, to keep the image size down. Otherwise pip will install GPU version as well (~10GB)
 RUN pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+
+COPY --from=builder /dist /dist/
 RUN pip install --no-cache-dir -r /dist/requirements.txt
 
 ENV production=True
