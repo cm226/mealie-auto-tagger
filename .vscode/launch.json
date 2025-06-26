@@ -10,7 +10,7 @@
             "request": "launch",
             "module": "uvicorn",
             "cwd": "${workspaceFolder}/mealie-auto-tagger/src/",
-            "envFile": "${workspaceFolder}/mealie-auto-tagger/.env",
+            "envFile": "${workspaceFolder}/mealie-auto-tagger/src/.env",
             "args": [
                 "mealie_auto_tagger.app:app",
                 "--port", "8081",
