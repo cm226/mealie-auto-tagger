@@ -11,51 +11,27 @@ logger = logging.getlogger()
 
 class __MealieLabels():
 
-    def checkExists(self, labelName: str):
-
-        params = {
-            "queryFilter": f"name == \"{labelName}\""
-        }
-        lableURL = urllib.parse.urljoin(settings.mealie_url, "api/groups/labels")
+    def makeMealieReq(self, api: str):
+        fullUrl = urllib.parse.urljoin(settings.mealie_url, api)
         resp = requests.get(
-            lableURL,
-            headers=mealieAuth.withAuth({}),
-            params=params)
+            fullUrl,
+            headers=mealieAuth.withAuth({}))
 
         if not resp.ok:
-            raise RuntimeError("Failed to get labels: " + resp.text)
+            raise RuntimeError("Failed to make request: " + resp.text)
         
+        return resp
+
+    def getAllLabels(self):
+        resp = self.makeMealieReq("api/groups/labels") 
+        allLabels :list[MealieLabel] = []
 
         queryResp = PaginatedQueryResp[MealieLabel](**resp.json())
-        if queryResp.total != 0:
-            return queryResp.items[0]
-        
-        return None
-        
-
-    def makeLabel(self, labelName: str):
-        label = self.checkExists(labelName)
-        if not label == None:
-            return label
-        
-        label = {
-            "name": labelName,
-            "color": "#959595"
-        }
-
-        lableURL = urllib.parse.urljoin(settings.mealie_url, "api/groups/labels")
-        resp = requests.post(
-            lableURL,
-            headers=mealieAuth.withAuth({}),
-            json=label)
-
-        if not resp.ok:
-            raise RuntimeError("Failed to create new label " + resp.text)
-
-        return MealieLabel(**resp.json())
-
-    def createLabels(self, labels: list[str]) -> list[MealieLabel]:
-        return [self.makeLabel(name) for name in labels]
-            
+        allLabels += queryResp.items
+        while queryResp.next:
+            resp = self.makeMealieReq("api/groups/labels") 
+            queryResp = PaginatedQueryResp[MealieLabel](**resp.json())
+            allLabels += queryResp.items
+        return allLabels
 
 mealieLabels = __MealieLabels()

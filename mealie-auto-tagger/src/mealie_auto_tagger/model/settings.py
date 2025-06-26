@@ -8,8 +8,6 @@ class Settings(BaseSettings):
     mealie_user: str = ""
     mealie_pw: str = ""
 
-    labels: List[str] = []
-
     db_url: str = "sqlite:///./database.db.sqlite3"
 
     production: bool = False

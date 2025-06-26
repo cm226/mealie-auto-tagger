@@ -21,7 +21,7 @@ async def lifespan_fn(_: FastAPI) -> AsyncGenerator[None, None]:
     logger.info("-----SYSTEM STARTUP-----")
     mealieNotifier.make()
 
-    labels = mealieLabels.createLabels(settings.labels)
+    labels = mealieLabels.getAllLabels()
 
     with SessionLocal() as session:
         get_repositories(session)\
