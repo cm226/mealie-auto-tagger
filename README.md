@@ -2,6 +2,11 @@
 
 **MealieAT** is a utility that automatically tags shopping list items from [Mealie](https://github.com/mealie-recipes/mealie) using a word similarity approach for the labels created in mealie. 
 
+Example created using MealieAT:
+<p align="center">
+  <img src="./docs/images/AutoLabel.png"/>
+</p>
+
 The project communicates with Mealie via its API, uses word embeddings to determine similarity between list item and label, and is deployed in a Docker container for easy setup.
 
 ---
