@@ -4,19 +4,23 @@ from sentence_transformers import SentenceTransformer, util
 
 class __EmbeddingService:
 
-    def computingLabelEmbeddings(self, labels: list[MealieLabel], modelName : str = "all-MiniLM-L6-v2") -> MealieLabelEmbeddings:
+
+    def __init__(self, modelName) -> None:
+        self.modelName = modelName
+        self.model = SentenceTransformer(modelName)
+
+    def computingLabelEmbeddings(self, labels: list[MealieLabel]) -> MealieLabelEmbeddings:
         labelEmbeddings = []
         
-        model = SentenceTransformer(modelName)
         for label in labels:
             labelEmbeddings.append(
                 MealieLabelEmbedding(
                     label=label,
-                    embedding=model.encode(label.name, convert_to_tensor=True)
+                    embedding=self.model.encode(label.name, convert_to_tensor=True)
                 )
             )
         
-        return MealieLabelEmbeddings(labels=labelEmbeddings, model=model)
+        return MealieLabelEmbeddings(labels=labelEmbeddings, model=self.model)
 
 
     def findClosest(self, term : str, embeddings: MealieLabelEmbeddings):
@@ -28,7 +32,7 @@ class __EmbeddingService:
         closest = max(distancePool, key=lambda score: score[0])
         return closest[1]
     
-embeddingService = __EmbeddingService() 
+embeddingService = __EmbeddingService("all-MiniLM-L6-v2") 
 
 
 
