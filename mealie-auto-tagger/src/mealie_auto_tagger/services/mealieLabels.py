@@ -33,5 +33,19 @@ class __MealieLabels():
             queryResp = PaginatedQueryResp[MealieLabel](**resp.json())
             allLabels += queryResp.items
         return allLabels
+    
+    def getOneLabel(self, label:str): 
+        resp = self.makeMealieReq(f"api/groups/labels/{label}")
+        return resp.json()
+    
+    def checkLabelValid(self, label: str | None):
+        if label == None:
+            return False
+        try:
+            self.getOneLabel(label)
+        except:
+            return False
+        return True
+
 
 mealieLabels = __MealieLabels()

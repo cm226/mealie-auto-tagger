@@ -16,11 +16,19 @@ class __EmbeddingService:
             labelEmbeddings.append(
                 MealieLabelEmbedding(
                     label=label,
-                    embedding=self.model.encode(label.name, convert_to_tensor=True)
+                    embedding=self.model.encode(label.name, convert_to_tensor=True),
+                    model=self.model
                 )
             )
         
         return MealieLabelEmbeddings(labels=labelEmbeddings, model=self.model)
+    
+    def computeLabelEmbedding(self, label:MealieLabel) -> MealieLabelEmbedding:
+        return MealieLabelEmbedding(
+            label=label,
+            embedding=self.model.encode(label.name, convert_to_tensor=True),
+            model=self.model
+        )
 
 
     def findClosest(self, term : str, embeddings: MealieLabelEmbeddings):

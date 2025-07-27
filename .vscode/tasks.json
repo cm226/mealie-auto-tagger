@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Clear Database",
+            "type": "shell",
+            "command": "rm -f ${workspaceFolder}/mealie-auto-tagger/src/database.db.sqlite3",
+            "problemMatcher": [],
+        }
+    ]
+}
