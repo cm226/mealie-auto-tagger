@@ -1,0 +1,1 @@
+from .fixtures.mealieLabel import *

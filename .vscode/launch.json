@@ -18,6 +18,18 @@
                 "--reload"
             ],
             "jinja": true
-        }
+        },
+        {
+            "name": "Python: run poetry pytest",
+            "type": "debugpy",
+            "request": "launch",
+            "pythonPath": "${workspaceFolder}/mealie-auto-tagger/.venv/bin/python",
+            "cwd": "${workspaceFolder}",
+            "module": "pytest",
+            "args": [
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false,
+	    }
     ]
 }
