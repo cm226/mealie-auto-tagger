@@ -6,6 +6,15 @@
             "type": "shell",
             "command": "rm -f ${workspaceFolder}/mealie-auto-tagger/src/database.db.sqlite3",
             "problemMatcher": [],
+        },
+        {
+            "label": "lint",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/mealie-auto-tagger"
+            },
+            "command": "poetry run pylint --recursive=y ./src/mealie_auto_tagger/ ./tests/",
+            "problemMatcher": [],
         }
     ]
 }
