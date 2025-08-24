@@ -1,3 +1,7 @@
+"""Model evaluation
+Script to evaulate the performance of models
+"""
+
 import sys
 from datasets import load_dataset
 from mealie_auto_tagger.services.embedding.embeddingService import __EmbeddingService
@@ -5,7 +9,6 @@ from mealie_auto_tagger.model.mealie.shoppingListItem import MealieLabel
 
 def LabelFromStr(name: str) -> MealieLabel:
     return MealieLabel(name=name, color="", groupId="", id="")
-    
 
 testSet = load_dataset("Scuccorese/food-ingredients-dataset", split="train")
 

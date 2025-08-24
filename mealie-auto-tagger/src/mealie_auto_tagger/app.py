@@ -1,3 +1,8 @@
+""" Mealie auto tagger app
+This module is the mealie atuo tagger application. 
+It communicates with mealie to register notifiers and handles the notifications. 
+"""
+
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 from fastapi import FastAPI

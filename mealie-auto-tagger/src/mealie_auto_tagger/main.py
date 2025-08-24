@@ -1,3 +1,8 @@
+"""mealie auto tagger - Automatically apply a mealie lable to items added to your shopping list
+
+This module starts the web server and runs mealie auto tagger.
+"""
+
 import uvicorn
 
 def main():
