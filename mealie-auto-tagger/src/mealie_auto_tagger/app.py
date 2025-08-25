@@ -7,11 +7,11 @@ from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 from fastapi import FastAPI
 
-from mealie_auto_tagger.routes.webhook import makeRouter
+from mealie_auto_tagger.routes.webhook import make_router
 from mealie_auto_tagger.services.makeNotifier import mealieNotifier
 from mealie_auto_tagger.services.logging import getlogger
-from mealie_auto_tagger.model.settings import settings
-description = """
+
+DESCRIPTION = """
 Automatically tag Mealie shopping list items
 """
 
@@ -22,7 +22,7 @@ async def lifespan_fn(_: FastAPI) -> AsyncGenerator[None, None]:
     logger.info("-----SYSTEM STARTUP-----")
     mealieNotifier.make()
 
-    app.include_router(makeRouter())
+    app.include_router(make_router())
 
     logger.info("-----SYSTEM STARTUP FINISHED-----")
 
@@ -32,7 +32,7 @@ async def lifespan_fn(_: FastAPI) -> AsyncGenerator[None, None]:
 
 app = FastAPI(
     title="Mealie-auto-tagger",
-    description=description,
+    description=DESCRIPTION,
     version="1.0",
     docs_url="",
     redoc_url="",

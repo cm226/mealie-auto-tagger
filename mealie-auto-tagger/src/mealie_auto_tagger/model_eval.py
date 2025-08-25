@@ -7,14 +7,14 @@ from datasets import load_dataset
 from mealie_auto_tagger.services.embedding.embeddingService import __EmbeddingService
 from mealie_auto_tagger.model.mealie.shoppingListItem import MealieLabel
 
-def LabelFromStr(name: str) -> MealieLabel:
+def label_from_str(name: str) -> MealieLabel:
     return MealieLabel(name=name, color="", groupId="", id="")
 
 testSet = load_dataset("Scuccorese/food-ingredients-dataset", split="train")
 
 
-def main(modelName:str):
-    embeddingService = __EmbeddingService(modelName)
+def main(model_name:str):
+    embedding_service = __EmbeddingService(model_name)
 
     categories = set()
     score = 0
@@ -22,12 +22,12 @@ def main(modelName:str):
     for ingredient in testSet:
         categories.add(ingredient['category'])
 
-    categories = [LabelFromStr(n) for n in categories]
+    categories = [label_from_str(n) for n in categories]
 
-    labelEmbeddings = embeddingService.computingLabelEmbeddings(list(categories))
+    label_embeddings = embedding_service.computingLabelEmbeddings(list(categories))
 
     for ingredient in testSet:
-        output = embeddingService.findClosest(ingredient['ingredient'], labelEmbeddings)
+        output = embedding_service.findClosest(ingredient['ingredient'], label_embeddings)
         if ingredient['category'] == output.label.name:
             score += 1
 
