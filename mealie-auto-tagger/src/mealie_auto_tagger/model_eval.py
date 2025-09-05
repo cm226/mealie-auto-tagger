@@ -36,5 +36,4 @@ def main(model_name:str):
 
 if __name__ == "__main__":
     modelName = sys.argv[1]
-    score = main(modelName)
-    print(f"|{modelName}|{score}|")
+    print(f"|{modelName}|{main(modelName)}|")
