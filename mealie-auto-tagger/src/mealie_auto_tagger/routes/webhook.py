@@ -1,6 +1,7 @@
 # pylint: disable=missing-module-docstring
 
 import json
+import threading
 from logging import getLogger
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
@@ -16,6 +17,7 @@ from mealie_auto_tagger.db.init import fast_API_depends_generate_session
 
 logger = getLogger()
 labelEmbeddings = labelEmbeddingsService.computeLabelEmbeddings()
+labelEmbeddingsLock = threading.Lock()
 
 
 def get_label_assignment(
@@ -44,29 +46,47 @@ def assign_label_to_list_item(list_item: MealieShoppingListItem, session, label_
     return list_item
 
 
-def make_router():
-    router = APIRouter(prefix="/webhooks")
+def list_updated(
+        update: NotifiedMessage,
+        session=Depends(fast_API_depends_generate_session)):
 
-    @router.post("/post/")
-    def notified_from_meaile(
-            update: NotifiedMessage,
-            session=Depends(fast_API_depends_generate_session)):
+    # some weird patch/diff format from apraise/mealie?
+    doc_data = update.document_data.replace('+', '')
+    parsed = json.loads(doc_data)
+    details = ShoppingListUpdate(**parsed)
+    for item_id in details.shoppingListItemIds:
+        try:
+            list_item = mealieShoppingList.getListItem(item_id)
+            if not list_item.labelId:
+                list_item = assign_label_to_list_item(
+                    list_item, session, labelEmbeddings)
+                mealieShoppingList.updateListItem(list_item)
+            get_repositories(
+                session).listItemRepo.storeLabelAssignment(list_item)
+        # pylint: disable=broad-exception-caught
+        except Exception as e:
+            logger.error("Failed to process list item: %s", str(e))
+    return 200
 
-        # some weird patch/diff format from apraise/mealie?
-        doc_data = update.document_data.replace('+', '')
-        parsed = json.loads(doc_data)
-        details = ShoppingListUpdate(**parsed)
-        for item_id in details.shoppingListItemIds:
-            try:
-                list_item = mealieShoppingList.getListItem(item_id)
-                if not list_item.labelId:
-                    list_item = assign_label_to_list_item(
-                        list_item, session, labelEmbeddings)
-                    mealieShoppingList.updateListItem(list_item)
-                get_repositories(
-                    session).listItemRepo.storeLabelAssignment(list_item)
-            # pylint: disable=broad-exception-caught
-            except Exception as e:
-                logger.error("Failed to process list item: %s", str(e))
-        return 200
-    return router
+
+def label_updated():
+    # pylint: disable=global-statement
+    global labelEmbeddings
+    labelEmbeddings = labelEmbeddingsService.computeLabelEmbeddings()
+    return 200
+
+
+router = APIRouter(prefix="/webhooks")
+
+
+@router.post("/post/")
+def notified_from_meaile(
+        update: NotifiedMessage,
+        session=Depends(fast_API_depends_generate_session)):
+    return_code = 200
+    with labelEmbeddingsLock:
+        if update.event_type == 'shopping_list_updated':
+            return_code = list_updated(update, session)
+        if update.event_type in ['label_created', 'label_updated', 'label_deleted']:
+            return_code = label_updated()
+    return return_code
