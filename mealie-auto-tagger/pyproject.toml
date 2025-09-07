@@ -1,6 +1,6 @@
 [project]
 name = "mealie_auto_tagger"
-version = "0.2.0"
+version = "0.2.1"
 description = ""
 authors = [
     {name = "Craig Matear",email = "c.matear@gmail.com"}
