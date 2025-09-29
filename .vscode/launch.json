@@ -25,6 +25,7 @@
             "request": "launch",
             "pythonPath": "${workspaceFolder}/mealie-auto-tagger/.venv/bin/python",
             "cwd": "${workspaceFolder}",
+            "envFile": "${workspaceFolder}/mealie-auto-tagger/tests/.env",
             "module": "pytest",
             "args": [
             ],

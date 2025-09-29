@@ -10,27 +10,27 @@ from mealie_auto_tagger.services.logging import getlogger
 logger = getlogger()
 
 
-class __mealieNotifier():
+class __MealieNotifier():
 
     NAME = "mealie-auto-tagger"
 
     def __check_for_existing(self):
 
-        getNotifiersURL = urllib.parse.urljoin(
+        get_notifiers_url = urllib.parse.urljoin(
             settings.mealie_url, "api/households/events/notifications")
 
         params = {
             "queryFilter": f"name == \"{self.NAME}\""
         }
 
-        resp = requests.get(getNotifiersURL, params=params,
+        resp = requests.get(get_notifiers_url, params=params,
                             headers=mealieAuth.withAuth({}))
         if not resp.ok:
             raise RuntimeError("Failed to check for existing: " + resp.text)
 
-        queryResp = PaginatedQueryResp[Notifier](**resp.json())
-        if queryResp.total != 0:
-            return queryResp.items[0]
+        query_resp = PaginatedQueryResp[Notifier](**resp.json())
+        if query_resp.total != 0:
+            return query_resp.items[0]
 
         return None
 
@@ -85,4 +85,4 @@ class __mealieNotifier():
                                update_notifiaction_resp.text)
 
 
-mealieNotifier = __mealieNotifier()
+mealieNotifier = __MealieNotifier()

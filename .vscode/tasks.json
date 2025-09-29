@@ -13,7 +13,7 @@
             "options": {
                 "cwd": "${workspaceFolder}/mealie-auto-tagger"
             },
-            "command": "poetry run pylint --recursive=y ./src/mealie_auto_tagger/ ./tests/",
+            "command": "poetry run pylint ./src/mealie_auto_tagger/* ./tests/*",
             "problemMatcher": [],
         }
     ]

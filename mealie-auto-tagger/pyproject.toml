@@ -39,6 +39,8 @@ torchvision = {source = "pytorch_cpu"}
 pytest = "^8.4.1"
 pytest-mock = "^3.14.1"
 pylint = "^3.3.8"
+httpx = "^0.28.1"
+pytest-httpserver = "^1.1.3"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

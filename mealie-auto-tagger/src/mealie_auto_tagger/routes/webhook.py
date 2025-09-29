@@ -5,19 +5,21 @@ import threading
 from logging import getLogger
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+from mealie_auto_tagger.caches.labelEmbeddingCache import LabelEmbeddingsCache
 from mealie_auto_tagger.model.mealie.notifiedMessage import NotifiedMessage, ShoppingListUpdate
 from mealie_auto_tagger.model.mealieLableEmbeddings import MealieLabelEmbeddings
 from mealie_auto_tagger.services.mealieShoppingList import mealieShoppingList
 from mealie_auto_tagger.services.embedding.embeddingService import embeddingService
 from mealie_auto_tagger.model.mealie.shoppingListItem import MealieShoppingListItem
-from mealie_auto_tagger.services.embedding.labelEmbeddingsService import labelEmbeddingsService
 
 from mealie_auto_tagger.db.repos.all_repositories import get_repositories
 from mealie_auto_tagger.db.init import fast_API_depends_generate_session
 
 logger = getLogger()
-labelEmbeddings = labelEmbeddingsService.computeLabelEmbeddings()
+
 labelEmbeddingsLock = threading.Lock()
+
+label_embeddings_cache = LabelEmbeddingsCache()
 
 
 def get_label_assignment(
@@ -59,20 +61,14 @@ def list_updated(
             list_item = mealieShoppingList.getListItem(item_id)
             if not list_item.labelId:
                 list_item = assign_label_to_list_item(
-                    list_item, session, labelEmbeddings)
+                    list_item, session, label_embeddings_cache.get())
                 mealieShoppingList.updateListItem(list_item)
             get_repositories(
                 session).listItemRepo.storeLabelAssignment(list_item)
         # pylint: disable=broad-exception-caught
         except Exception as e:
             logger.error("Failed to process list item: %s", str(e))
-    return 200
-
-
-def label_updated():
-    # pylint: disable=global-statement
-    global labelEmbeddings
-    labelEmbeddings = labelEmbeddingsService.computeLabelEmbeddings()
+            return 500
     return 200
 
 
@@ -88,5 +84,6 @@ def notified_from_meaile(
         if update.event_type == 'shopping_list_updated':
             return_code = list_updated(update, session)
         if update.event_type in ['label_created', 'label_updated', 'label_deleted']:
-            return_code = label_updated()
+            label_embeddings_cache.update()
+            return_code = 200
     return return_code

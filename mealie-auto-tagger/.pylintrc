@@ -117,6 +117,7 @@ unsafe-load-any-extension=no
 
 disable=
     C0116, # missing-module-docstring
+    C0115, # missing-class-docstring
 
 
 [BASIC]
