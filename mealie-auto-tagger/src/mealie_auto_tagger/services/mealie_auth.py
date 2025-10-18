@@ -6,10 +6,12 @@ from mealie_auto_tagger.services.logging import getlogger
 
 logger = getlogger()
 
-class __MealieAuth() : 
 
-    def withAuth(self, headers: dict[str, Any]):
+class _MealieAuth():
+
+    def with_auth(self, headers: dict[str, Any]):
         headers["Authorization"] = f"Bearer {settings.mealie_api_token}"
         return headers
 
-mealieAuth = __MealieAuth()
+
+mealieAuth = _MealieAuth()

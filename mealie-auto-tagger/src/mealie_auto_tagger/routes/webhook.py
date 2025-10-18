@@ -5,15 +5,15 @@ import threading
 from logging import getLogger
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from mealie_auto_tagger.caches.labelEmbeddingCache import LabelEmbeddingsCache
+from mealie_auto_tagger.caches.label_embedding_cache import LabelEmbeddingsCache
 from mealie_auto_tagger.model.mealie.notifiedMessage import NotifiedMessage, ShoppingListUpdate
-from mealie_auto_tagger.model.mealieLableEmbeddings import MealieLabelEmbeddings
-from mealie_auto_tagger.services.mealieShoppingList import mealieShoppingList
+from mealie_auto_tagger.model.mealie_label_embeddings import MealieLabelEmbeddings
+from mealie_auto_tagger.services.mealie_shopping_list import mealieShoppingList
 from mealie_auto_tagger.services.embedding.embeddingService import embeddingService
 from mealie_auto_tagger.model.mealie.shoppingListItem import MealieShoppingListItem
 
 from mealie_auto_tagger.db.repos.all_repositories import get_repositories
-from mealie_auto_tagger.db.init import fast_API_depends_generate_session
+from mealie_auto_tagger.db.init import fast_api_depends_generate_session
 
 logger = getLogger()
 
@@ -31,7 +31,7 @@ def get_label_assignment(
         .listItemRepo\
         .getListItemFor(list_item.display)
     if user_selected_list_item_label is not None:
-        user_label = label_embeddings.getLabelByID(
+        user_label = label_embeddings.get_label_by_id(
             user_selected_list_item_label.label)
         if user_label is None:
             logger.error(
@@ -50,7 +50,7 @@ def assign_label_to_list_item(list_item: MealieShoppingListItem, session, label_
 
 def list_updated(
         update: NotifiedMessage,
-        session=Depends(fast_API_depends_generate_session)):
+        session=Depends(fast_api_depends_generate_session)):
 
     # some weird patch/diff format from apraise/mealie?
     doc_data = update.document_data.replace('+', '')
@@ -58,11 +58,11 @@ def list_updated(
     details = ShoppingListUpdate(**parsed)
     for item_id in details.shoppingListItemIds:
         try:
-            list_item = mealieShoppingList.getListItem(item_id)
+            list_item = mealieShoppingList.get_list_item(item_id)
             if not list_item.labelId:
                 list_item = assign_label_to_list_item(
                     list_item, session, label_embeddings_cache.get())
-                mealieShoppingList.updateListItem(list_item)
+                mealieShoppingList.update_list_item(list_item)
             get_repositories(
                 session).listItemRepo.storeLabelAssignment(list_item)
         # pylint: disable=broad-exception-caught
@@ -78,7 +78,7 @@ router = APIRouter(prefix="/webhooks")
 @router.post("/post/")
 def notified_from_meaile(
         update: NotifiedMessage,
-        session=Depends(fast_API_depends_generate_session)):
+        session=Depends(fast_api_depends_generate_session)):
     return_code = 200
     with labelEmbeddingsLock:
         if update.event_type == 'shopping_list_updated':

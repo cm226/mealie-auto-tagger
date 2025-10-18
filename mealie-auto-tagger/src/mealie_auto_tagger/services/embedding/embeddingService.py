@@ -1,9 +1,9 @@
 from mealie_auto_tagger.model.mealie.shoppingListItem import MealieLabel
-from mealie_auto_tagger.model.mealieLableEmbeddings import MealieLabelEmbedding, MealieLabelEmbeddings
+from mealie_auto_tagger.model.mealie_label_embeddings import MealieLabelEmbedding, MealieLabelEmbeddings
 from sentence_transformers import SentenceTransformer, util
 
-class __EmbeddingService:
 
+class __EmbeddingService:
 
     def __init__(self, modelName) -> None:
         self.modelName = modelName
@@ -11,36 +11,34 @@ class __EmbeddingService:
 
     def computingLabelEmbeddings(self, labels: list[MealieLabel]) -> MealieLabelEmbeddings:
         labelEmbeddings = []
-        
+
         for label in labels:
             labelEmbeddings.append(
                 MealieLabelEmbedding(
                     label=label,
-                    embedding=self.model.encode(label.name, convert_to_tensor=True),
+                    embedding=self.model.encode(
+                        label.name, convert_to_tensor=True),
                     model=self.model
                 )
             )
-        
+
         return MealieLabelEmbeddings(labels=labelEmbeddings, model=self.model)
-    
-    def computeLabelEmbedding(self, label:MealieLabel) -> MealieLabelEmbedding:
+
+    def computeLabelEmbedding(self, label: MealieLabel) -> MealieLabelEmbedding:
         return MealieLabelEmbedding(
             label=label,
             embedding=self.model.encode(label.name, convert_to_tensor=True),
             model=self.model
         )
 
-
-    def findClosest(self, term : str, embeddings: MealieLabelEmbeddings):
+    def findClosest(self, term: str, embeddings: MealieLabelEmbeddings):
 
         termEmbedding = embeddings.model.encode(term, convert_to_tensor=True)
-        distancePool = [(util.cos_sim(termEmbedding, d.embedding).item(),d) for d in embeddings.labels]
+        distancePool = [(util.cos_sim(termEmbedding, d.embedding).item(), d)
+                        for d in embeddings.labels]
 
-        
         closest = max(distancePool, key=lambda score: score[0])
         return closest[1]
-    
-embeddingService = __EmbeddingService("all-MiniLM-L6-v2") 
 
 
-
+embeddingService = __EmbeddingService("all-MiniLM-L6-v2")

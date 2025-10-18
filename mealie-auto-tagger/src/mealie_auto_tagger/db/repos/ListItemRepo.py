@@ -1,5 +1,5 @@
 from mealie_auto_tagger.db.repos.RepoBase import RepoBase
-from mealie_auto_tagger.db.models.label import ListItem, Label
+from mealie_auto_tagger.db.models.label import ListItem
 from mealie_auto_tagger.model.mealie.shoppingListItem import MealieShoppingListItem
 from sqlalchemy import select
 

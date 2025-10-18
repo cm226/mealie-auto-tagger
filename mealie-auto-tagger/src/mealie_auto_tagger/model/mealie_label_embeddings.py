@@ -1,23 +1,23 @@
-from mealie_auto_tagger.model.mealie.shoppingListItem import MealieLabel
 from pydantic import BaseModel, ConfigDict, model_validator
 from sentence_transformers import SentenceTransformer
 from torch import Tensor
+from mealie_auto_tagger.model.mealie.shoppingListItem import MealieLabel
 
 
 class MealieLabelEmbedding(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    label : MealieLabel
-    embedding : Tensor
-    model : SentenceTransformer
+    label: MealieLabel
+    embedding: Tensor
+    model: SentenceTransformer
 
 
 class MealieLabelEmbeddings(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    labels : list[MealieLabelEmbedding]
-    model : SentenceTransformer
-    
+    labels: list[MealieLabelEmbedding]
+    model: SentenceTransformer
+
     @model_validator(mode='after')
     def validate_models(self) -> 'MealieLabelEmbeddings':
         if not self.labels:
@@ -31,8 +31,8 @@ class MealieLabelEmbeddings(BaseModel):
         object.__setattr__(self, 'model', first_model)
         return self
 
-    def getLabelByID(self, id:str):
+    def get_label_by_id(self, label_id: str):
         return next(
             filter(
-                lambda x: x.label.id == id, self.labels
+                lambda x: x.label.id == label_id, self.labels
             ), None)

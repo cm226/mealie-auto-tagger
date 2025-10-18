@@ -8,7 +8,7 @@ from typing import AsyncGenerator
 from fastapi import FastAPI
 
 from mealie_auto_tagger.routes.webhook import router as mealie_webhook
-from mealie_auto_tagger.services.makeNotifier import mealieNotifier
+from mealie_auto_tagger.services.mealie_notifier import mealieNotifier
 from mealie_auto_tagger.services.logging import getlogger
 
 DESCRIPTION = """

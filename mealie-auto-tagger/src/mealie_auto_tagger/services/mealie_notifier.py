@@ -1,7 +1,5 @@
-import requests
-from mealie_auto_tagger.services.mealieAuth import mealieAuth
 import urllib.parse
-
+from mealie_auto_tagger.mixins.mealie_requester import MealieRequester
 from mealie_auto_tagger.model.settings import settings
 from mealie_auto_tagger.model.mealie.notifier import Notifier
 from mealie_auto_tagger.model.mealie.paginated import PaginatedQueryResp
@@ -10,7 +8,7 @@ from mealie_auto_tagger.services.logging import getlogger
 logger = getlogger()
 
 
-class __MealieNotifier():
+class _MealieNotifier(MealieRequester):
 
     NAME = "mealie-auto-tagger"
 
@@ -18,16 +16,10 @@ class __MealieNotifier():
 
         get_notifiers_url = urllib.parse.urljoin(
             settings.mealie_url, "api/households/events/notifications")
-
         params = {
             "queryFilter": f"name == \"{self.NAME}\""
         }
-
-        resp = requests.get(get_notifiers_url, params=params,
-                            headers=mealieAuth.withAuth({}))
-        if not resp.ok:
-            raise RuntimeError("Failed to check for existing: " + resp.text)
-
+        resp = self.get_request(get_notifiers_url, params)
         query_resp = PaginatedQueryResp[Notifier](**resp.json())
         if query_resp.total != 0:
             return query_resp.items[0]
@@ -35,26 +27,16 @@ class __MealieNotifier():
         return None
 
     def __create_new(self):
-        headers = {
-            "Content-Type": "application/json"
-        }
-
         payload = {
             "name": "mealie-auto-tagger",
             "appriseUrl": f"json://{settings.host}/webhooks/post/"
         }
-        createNotifierURL = urllib.parse.urljoin(
+        create_notifier_url = urllib.parse.urljoin(
             settings.mealie_url, "api/households/events/notifications")
-        createNotifiactionResp = requests.post(
-            createNotifierURL,
-            headers=mealieAuth.withAuth(headers),
-            json=payload)
+        create_notifiaction_resp = self.post_request(
+            create_notifier_url, json=payload)
 
-        if not createNotifiactionResp.ok:
-            raise RuntimeError("Failed to create notifier: " +
-                               createNotifiactionResp.text)
-
-        notifier = Notifier(**createNotifiactionResp.json())
+        notifier = Notifier(**create_notifiaction_resp.json())
 
         return notifier
 
@@ -69,20 +51,11 @@ class __MealieNotifier():
         notifier.options.labelDeleted = True
         notifier.appriseUrl = f"json://{settings.host}/webhooks/post/"
 
-        headers = {
-            "Content-Type": "application/json"
-        }
         update_notifier_url = urllib.parse.urljoin(
             settings.mealie_url, f"/api/households/events/notifications/{notifier.id}")
-        update_notifiaction_resp = requests.put(
+        self.put_request(
             update_notifier_url,
-            headers=mealieAuth.withAuth(headers),
-            json=notifier.model_dump(),
-            timeout=10)
-
-        if not update_notifiaction_resp.ok:
-            raise RuntimeError("Failed to update notifier: " +
-                               update_notifiaction_resp.text)
+            json=notifier.model_dump())
 
 
-mealieNotifier = __MealieNotifier()
+mealieNotifier = _MealieNotifier()

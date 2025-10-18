@@ -34,8 +34,8 @@ class FakeMealieHTTPServer(HTTPServer):
             self,
             url: str,
             model: BaseModel):
-        self.expect_request(
-            url, method="GET").respond_with_data(model.model_dump_json(), content_type="application/json")
+        self.expect_request(url, method="GET").respond_with_data(
+            model.model_dump_json(), content_type="application/json")
 
 
 @pytest.fixture

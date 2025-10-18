@@ -1,6 +1,6 @@
-import logging 
+import logging
 
 
 def getlogger():
-    #TODO
+    # TODO
     return logging.getLogger("uvicorn.error")

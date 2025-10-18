@@ -2,11 +2,13 @@
 
 from pydantic import BaseModel
 
+
 class ShoppingListUpdate(BaseModel):
     shoppingListId: str
-    shoppingListItemIds : list[str]
+    shoppingListItemIds: list[str]
 
-class NotifiedMessage(BaseModel): 
+
+class NotifiedMessage(BaseModel):
     version: str
     title: str
     message: str

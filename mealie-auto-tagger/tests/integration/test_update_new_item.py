@@ -23,11 +23,16 @@ def test_update_new_item(mealie_server):
         expected_list_item.label = only_label
         expected_list_item.labelId = only_label.id
         mealie_server.expect(
-            ListItemMatcher(expected_list_item, uri=MealieURLS.shopping_list_item(new_list_item.id), method="PUT")).respond_with_data("", 200)
+            ListItemMatcher(expected_list_item,
+                            uri=MealieURLS.shopping_list_item(
+                                new_list_item.id),
+                            method="PUT")).respond_with_data("", 200)
 
         # Act
         list_update = ShoppingListUpdate(
             shoppingListId="", shoppingListItemIds=[new_list_item.id])
-        response = client.post(
-            "/webhooks/post/", content=notified_message("shopping_list_updated", list_update).model_dump_json())
+        response = client.post("/webhooks/post/",
+                               content=notified_message("shopping_list_updated",
+                                                        list_update)
+                               .model_dump_json())
         assert response.status_code == 200

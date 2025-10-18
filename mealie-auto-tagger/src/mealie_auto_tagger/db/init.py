@@ -1,24 +1,26 @@
-
 from typing import Generator
-from mealie_auto_tagger.model.settings import settings
-from mealie_auto_tagger.db.models.label import Base
 from sqlalchemy import create_engine
-
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from mealie_auto_tagger.model.settings import settings
+from mealie_auto_tagger.db.models.label import Base
 
-def initDB(db_url: str):
-    engine = create_engine(db_url, echo=not settings.production, connect_args={"check_same_thread": False})
-    Base.metadata.create_all(engine)
 
-    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine, future=True)
+def init_db(db_url: str):
+    new_engine = create_engine(db_url, echo=not settings.production, connect_args={
+        "check_same_thread": False})
+    Base.metadata.create_all(new_engine)
 
-    return SessionLocal, engine
+    new_session = sessionmaker(
+        autocommit=False, autoflush=False, bind=new_engine, future=True)
 
-SessionLocal, engine = initDB(settings.db_url)
+    return new_session, new_engine
 
-def fast_API_depends_generate_session() -> Generator[Session, None, None]:
-    global SessionLocal
+
+SessionLocal, engine = init_db(settings.db_url)
+
+
+def fast_api_depends_generate_session() -> Generator[Session, None, None]:
     db = SessionLocal()
     try:
         yield db
