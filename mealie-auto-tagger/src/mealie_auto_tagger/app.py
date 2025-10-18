@@ -9,7 +9,7 @@ from fastapi import FastAPI
 
 from mealie_auto_tagger.routes.webhook import router as mealie_webhook
 from mealie_auto_tagger.services.mealie_notifier import mealieNotifier
-from mealie_auto_tagger.services.logging import getlogger
+from mealie_auto_tagger.services.mealie_auto_tagger_logging import getlogger
 
 DESCRIPTION = """
 Automatically tag Mealie shopping list items

@@ -3,10 +3,10 @@ from mealie_auto_tagger.mixins.mealie_requester import MealieRequester
 from mealie_auto_tagger.model.mealie.shoppingListItem import MealieLabel
 from mealie_auto_tagger.model.mealie.paginated import PaginatedQueryResp
 from mealie_auto_tagger.model.settings import settings
-from mealie_auto_tagger.services import logging
+from mealie_auto_tagger.services import mealie_auto_tagger_logging
 
 
-logger = logging.getlogger()
+logger = mealie_auto_tagger_logging.getlogger()
 
 
 class _MealieLabels(MealieRequester):

@@ -2,7 +2,7 @@
 from typing import Any
 
 from mealie_auto_tagger.model.settings import settings
-from mealie_auto_tagger.services.logging import getlogger
+from mealie_auto_tagger.services.mealie_auto_tagger_logging import getlogger
 
 logger = getlogger()
 
